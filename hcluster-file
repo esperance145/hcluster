@@ -1,0 +1,23 @@
+setwd("C:/Users/ADMIN/Desktop/CMD 08-01")
+
+Matrix_dist <- read.table("Matrix_dist.txt", header = T, na.strings = c(".", "NA"), sep = "\t")
+na.strings=c('','')
+stringsAsFactor=FALSE
+View(Matrix_dist)
+  Matrix_dist=as.matrix(Matrix_dist)
+library(cluster)
+install.packages("ape", dependencies = TRUE)
+library(ape)
+hc <- hclust(dist(Matrix_dist[,2], "euclidian"))          
+hc
+#reduce the size
+par(cex=0.4, font=1)
+plot(hc,labels = Matrix_dist$genotypesID)
+sub_grp <- cutree(hc, k = 2)
+par(mfrow=c(1,1))
+write.csv(sub_grp, "cluster.csv")
+library(factoextra)
+library(ade4)
+library(FactoMineR)
+library(ggplot2)
+rect.hclust(hc, k = 2, border = 2:4)
